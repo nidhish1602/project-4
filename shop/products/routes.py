@@ -2,6 +2,7 @@ from flask import render_template, session, request, redirect, flash, url_for
 from shop import app, db, photos
 from .models import brands, fee
 from .forms import Addmodel
+from shop.user.models import User
 from flask_bootstrap import Bootstrap
 from datetime import datetime
 import sqlite3
@@ -25,9 +26,10 @@ def home():
     # sql = "SELECT \
     # * from brands \
     # inner join fee on brands.modelno = fee.modelno"
+    z = User.query.get(session.get('phno'))
     y = fee.query.all()
     x = brands.query.all()
-    return render_template('products/home.html', title = 'Homepage', models = x, fee = y)
+    return render_template('products/home.html', title = 'Homepage', models = x, fee = y, z=z)
 
 @app.route('/addmodel', methods = ['GET', 'POST'])
 def addmodel():
